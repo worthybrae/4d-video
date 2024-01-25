@@ -1,8 +1,8 @@
-frame_dims = (10, 10, 10, 4)  # Example dimensions (x, y, z, RGBA)
-num_frames = 5  # Example number of frames
-
 import numpy as np
 import random
+
+frame_dims = (10, 10, 10, 4)  # Example dimensions (x, y, z, RGBA)
+num_frames = 5  # Example number of frames
 
 def create_random_frame(dims):
     frame = np.zeros(dims, dtype=np.uint8)
