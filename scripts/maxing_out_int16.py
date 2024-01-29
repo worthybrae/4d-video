@@ -1,32 +1,32 @@
 import numpy as np
+from scipy.sparse import coo_matrix
 
 
-def get_random_rgba_bytes():
-    random_rgba_values = np.random.randint(-128, 127, size=4, dtype=np.int16)
-    bytes_list = [value.tobytes() for value in random_rgba_values]
-    return b''.join(bytes_list)
-
-def 
-
-length = 1000
 width = 1000
+height = 1000
 depth = 1000
-density_rate = .05
-
-total_cells = length * width * depth
-dense_matrix = np.zeros((length, width, depth), dtype=np.int16)
-populated_cells = int(total_cells * density_rate)
-
-initial_view = {}
-for _ in range(populated_cells):
-    x, y, z = np.random.randint(0, 1000, size=3, dtype=np.int16)
-    if x not in initial_view:
-        initial_view[x] = {y: {z: get_random_rgba_bytes()}}
-    elif y not in initial_view[x]:
-        initial_view[x][y] = {z: get_random_rgba_bytes()}
-    else:
-        initial_view[x][y][z] = get_random_rgba_bytes()
-
+transparent_ratio = .99
+total_pixels = int(width * height * depth * transparent_ratio)
+w = np.random.randint(0, high=width, size=total_pixels, dtype=np.uint16)
+h = np.random.randint(0, high=height, size=total_pixels, dtype=np.uint16)
+d = np.random.randint(0, high=depth, size=total_pixels, dtype=np.uint16)
+rgba = np.random.randint(0, high=256, size=total_pixels, dtype=np.uint32)
+depths = np.unique(d)
+sparse_matrices = []
+for depth_layer in depths:
+    # Filter coordinates and color values for the current depth layer
+    mask = d == depth_layer
+    w_layer = w[mask]
+    h_layer = h[mask]
+    rgba_layer = rgba[mask]
+    
+    # Create the COO matrix for this depth layer
+    # Assuming max width and height are known (max_w, max_h)
+    matrix = coo_matrix((rgba_layer, (h_layer, w_layer)), shape=(height, width))
+    
+    # Store the matrix
+    sparse_matrices.append(matrix)
+print(sparse_matrices)
 
     
 

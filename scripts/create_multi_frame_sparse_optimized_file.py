@@ -106,3 +106,5 @@ for _ in range(1, num_frames):
 
 save_frame_changes(frames, "frame_changes.dat")
 loaded_frames = load_frame_changes("frame_changes.dat")
+
+print(loaded_frames)
